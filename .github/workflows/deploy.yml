@@ -28,11 +28,12 @@ jobs:
 
       - name: Set image URI
         run: |
-          IMAGE_URI="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/agent-backend:latest"
-          echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
+          printf "IMAGE_URI=%s.dkr.ecr.%s.amazonaws.com/agent-backend:latest\n" \
+          "${{ secrets.AWS_ACCOUNT_ID }}" \
+          "${{ secrets.AWS_REGION }}" >> $GITHUB_ENV
 
       - name: Tag Docker image
-        run: docker tag agent-backend:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/agent-backend:latest
+        run: docker tag agent-backend:latest "$IMAGE_URI"
 
       - name: Push Docker image to ECR
-        run: docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/agent-backend:latest
+        run: docker push "$IMAGE_URI"
