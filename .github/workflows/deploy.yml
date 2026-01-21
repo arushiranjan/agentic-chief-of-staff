@@ -26,11 +26,11 @@ jobs:
       - name: Build Docker image
         run: docker build -t agent-backend:latest ./backend
 
-      - name: Set image URI
+      - name: Set ECR image URI
+        shell: bash
         run: |
-          printf "IMAGE_URI=%s.dkr.ecr.%s.amazonaws.com/agent-backend:latest\n" \
-          "${{ secrets.AWS_ACCOUNT_ID }}" \
-          "${{ secrets.AWS_REGION }}" >> $GITHUB_ENV
+          IMAGE_URI="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/agent-backend:latest"
+          echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
 
       - name: Tag Docker image
         run: docker tag agent-backend:latest "$IMAGE_URI"
