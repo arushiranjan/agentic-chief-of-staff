@@ -25,7 +25,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t agent-backend ./backend
+            docker build -t agent-backend:latest ./backend
 
       - name: Tag Docker image
         run: |
